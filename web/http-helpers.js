@@ -10,9 +10,22 @@ exports.headers = headers = {
   'Content-Type': "text/html"
 };
 
-exports.serveAssets = function(res, asset) {
+exports.serveAssets = function(response, asset) {
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...), css, or anything that doesn't change often.)
+  fs.readFile(__dirname + asset, function read(err, data) {
+    if (err) {
+      noPageFound(response);
+      return;
+    }
+    response.end(data);
+  });
+};
+
+exports.noPageFound = noPageFound = function(response){
+  var status = 404;
+  response.writeHead(status, headers);
+  response.end('404');
 };
 
 // As you progress, keep thinking about what helper functions you can put here!
